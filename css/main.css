@@ -43,13 +43,21 @@ body{
     top: 5px;
 }
 
-.kanban .title1, .kanban .title2{
+.kanban .title1{
+    font-size: xx-large;
+}
+
+.kanban .title2{
     font-size: x-large;
 }
 
 .kanban .note{
-    margin-left: 200px;
-    padding-top: 5px;
+    margin-left: 180px;
+    padding-top: 15px;
+}
+
+.kanban .note span{
+    display: block;
 }
 
 .prepare-data{
