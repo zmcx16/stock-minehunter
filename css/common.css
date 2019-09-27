@@ -1,0 +1,107 @@
+button:focus {
+  outline: 0 !important;
+}
+
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+
+.group-setting{
+  margin: 10px;
+}
+
+fieldset.sync-block {
+  border: 1px groove #ddd;
+  padding: 0 20px 20px 20px;
+  box-shadow:  0px 0px 0px 0px #000;
+}
+
+legend.sync-block {
+  width:inherit;
+  padding:0 10px;
+  border-bottom:none;
+  font-size: large;
+}
+
+.click-btn-v1, .click-btn-v2 {
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  
+}
+
+.click-btn-v1 {
+  box-shadow: 0 2px #999;
+}
+
+.click-btn-v1:active {
+  box-shadow: 0 2px #666;
+  transform: translateY(1px);
+}
+
+.click-btn-v2 {
+  box-shadow: 2px 2px 1px #999, -1px -1px 1px #CCC
+}
+
+.click-btn-v2:active {
+  box-shadow: -2px -2px 1px #999;
+}
+
+.text-btn{
+  background:none;
+  border:none;
+  cursor: pointer;  
+  font-size: 18;
+  font-family: inherit;
+  color: #0081f2;
+}
+
+.btn-select{
+  font-size: medium;
+  font-family: initial;
+  text-align: center;
+}
+
+.anime-btn{
+  border: #0081f2 1px solid;
+  background: white;
+  color: #0081f2;
+}
+
+.anime-btn:hover{
+  background: #0081f2;
+  color: #ffffff;
+}
+
+.ok-cancel-btn{
+  width: 80px;
+}
+
+.tab-content{
+  border: 1px solid #999;
+}
+
+.nav.nav-tabs{
+  margin-bottom: -1px;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  color: #495057;
+  background-color: snow;
+  border-color: #999 #999 snow;
+}
