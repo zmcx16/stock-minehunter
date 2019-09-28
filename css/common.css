@@ -105,3 +105,7 @@ legend.sync-block {
   background-color: snow;
   border-color: #999 #999 snow;
 }
+
+.span-x-large{
+  font-size: x-large;
+}

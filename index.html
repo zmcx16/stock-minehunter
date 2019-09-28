@@ -3,41 +3,26 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="author" content="zmcx16">
-  <meta name="publisher" content="https://protobuf-deserializer.zmcx16.moe">
-  <meta name="url" content="https://protobuf-deserializer.zmcx16.moe">
-  <meta name="title" content="protobuf-deserializer">
-  <meta name="description" content="A website which uses to deserialize the google protobuf data to pretty json display.">
-  <meta name="keywords" content="Protocol Buffers, Protocol Buffers Deserializer, Google Protocol Buffers, google protobuf, protobuf deserializer">
-  <meta property="og:site_name" content="protobuf-deserializer.zmcx16.moe">
-  <meta property="og:title" content="protobuf-deserializer">
-  <meta property="og:description" content="A website which uses to deserialize the google protobuf data to pretty json display.">
+  <meta name="publisher" content="https://norn-minehunter.zmcx16.moe">
+  <meta name="url" content="https://norn-minehunter.zmcx16.moe">
+  <meta name="title" content="norn-minehunter">
+  <meta name="description" content="A website which scan the stock financial data to inspect the company's financial health.">
+  <meta name="keywords" content="stock, financial health, stock health check">
+  <meta property="og:site_name" content="norn-minehunter.zmcx16.moe">
+  <meta property="og:title" content="norn-minehunter">
+  <meta property="og:description" content="A website which scan the stock financial data to inspect the company's financial health.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://protobuf-deserializer.zmcx16.moe">
-  <meta property="og:image" content="https://i.imgur.com/4JGAgC4.png">
-  <title>Google Protobuf Deserializer</title>
+  <meta property="og:url" content="https://norn-minehunter.zmcx16.moe">
+  <!---<meta property="og:image" content="https://i.imgur.com/4JGAgC4.png">-->
+  <title>Norn-Minehunter</title>
+  <link href="./css/bootstrap.min.css" rel="stylesheet">
   <link href="./css/common.css" rel="stylesheet">
   <link href="./css/main.css" rel="stylesheet">
   <script src="./js/jquery.min.js"></script>
+  <script src="./js/bootstrap.bundle.min.js"></script>
   <script src="./js/app.js"></script>
 </head>
 <body>
-  <svg aria-hidden="true" focusable="false" style="width:0;height:0;position:absolute;">
-    <linearGradient id="gradient-horizontal">
-      <stop offset="0%" stop-color="var(--color-stop-1)" />
-      <stop offset="50%" stop-color="var(--color-stop-2)" />
-      <stop offset="100%" stop-color="var(--color-stop-3)" />
-    </linearGradient>
-    <linearGradient id="gradient-vertical-1" x2="0" y2="1">
-      <stop offset="0%" stop-color="var(--color-stop-1)" />
-      <stop offset="50%" stop-color="var(--color-stop-2)" />
-      <stop offset="100%" stop-color="var(--color-stop-3)" />
-    </linearGradient>
-    <linearGradient id="gradient-vertical-2" x2="0" y2="1">
-      <stop offset="0%" stop-color="var(--color-stop-1)" />
-      <stop offset="50%" stop-color="var(--color-stop-2)" />
-      <stop offset="100%" stop-color="var(--color-stop-3)" />
-    </linearGradient>
-  </svg>
   <div class="wrapper-0">
   <div class="wrapper">
     <div class="kanban">
@@ -50,65 +35,28 @@
         <span>Would you like to share your tactics with everyone? Feel free to contact me: <a href="mailto:zmcx16.gmail.com">zmcx16.gmail.com</a></span>
       </div>
     </div>
-    <div class="prepare-data">
-      <div class="step step1">
-        <div class="description">Step1: Upload your proto files, and then click Generate button.</div>
-        <div class="description-2">Note. It needs to take a little time to generate proto library.</div>
-        <div class="upload-panel">
-          <div class="drop-zone" id="drop-proto">
-            <div class="upload-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 48 48">
-              <path style="fill: url(#gradient-vertical-1) gray;"
-                d="M38.71 20.07C37.35 13.19 31.28 8 24 8c-5.78 0-10.79 3.28-13.3 8.07C4.69 16.72 0 21.81 0 28c0 6.63 5.37 12 12 12h26c5.52 0 10-4.48 10-10 0-5.28-4.11-9.56-9.29-9.93zM28 26v8h-8v-8h-6l10-10 10 10h-6z" />
-              </svg>
-            </div>
-            <div class="drag-description">Drag your .proto files here.</div>
-            <div class="upload-file-icon" id="proto-icon">0</div>
-          </div>
-          <div class="ctrl-pannel">
-            <input id="upload-proto-input" type="file" name="upload-proto" data-target="file-uploader" multiple="multiple" style="display:none;">
-            <button id="upload-proto-button" type="button" class="click-btn-v2">Upload</button>
-            <button id="clear-proto-button" type="button" class="click-btn-v2">Clear</button>
-            <button id="generate-protojs-button" type="button" class="click-btn-v2 last-button">Generate</button>
-          </div>
-        </div>
+    <div id="tactics-input">
+      <div class="tactics-symbol-select">
+        <select id="tactics-select">
+          <option value="tactic1">tactic1</option>
+          <option value="tactic2">tactic2</option>
+        </select>
+        <div><span class="span-x-large" id="tactics-description">Select the scan tactic and input stocks' symbol:</span></div>
+        <div></div>
+        <input type="text" id="add-symbol-input" placeholder=" T, GOOG, AAPL" name="input-symbols">
       </div>
-      <div class="step step2">
-        <div class="description">Step2: Upload your pd data, and then click Deserialize button.</div>
-        <div class="description-2">Choose Target Deserializer: </div>
-        <div class="select-proto">
-          <select id="proto-select">
-            <option value="auto-detect">Auto Detect</option>
-          </select>
-        </div>
-        <div class="upload-panel">
-          <div class="drop-zone" id="drop-pbdata">
-            <div class="upload-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 48 48">
-                <path style="fill: url(#gradient-vertical-2) gray;"
-                  d="M38.71 20.07C37.35 13.19 31.28 8 24 8c-5.78 0-10.79 3.28-13.3 8.07C4.69 16.72 0 21.81 0 28c0 6.63 5.37 12 12 12h26c5.52 0 10-4.48 10-10 0-5.28-4.11-9.56-9.29-9.93zM28 26v8h-8v-8h-6l10-10 10 10h-6z" />
-              </svg>
-            </div>
-            <div class="drag-description">Drag your pd data files here.</div>
-            <div class="upload-file-icon" id="pbdata-icon">0</div>
-          </div>
-          <div class="ctrl-pannel">
-            <input id="upload-pbdata-input" type="file" name="upload-pbdata" data-target="file-uploader" multiple="multiple" style="display:none;">
-            <button id="upload-pbdata-button" type="button" class="click-btn-v2">Upload</button>
-            <button id="clear-pbdata-button" type="button" class="click-btn-v2">Clear</button>
-            <button id="deserialize-button" type="button" class="click-btn-v2 last-button">Deserialize</button>
-          </div>
-        </div>
+      <div id="tactics-args">
+        dd
       </div>
-    </div>
-    <div class="status">
-      <div class="status-data"><span class="status-title">Step1:</span><span class="status-content" id="step1-status">No proto file</span></div>
-      <div class="status-data"><span class="status-title">Step2:</span><span class="status-content" id="step2-status">No proto data file</span></div>
+      <div id="tactics-ctrl">
+        bb
+      </div>
+      <div id="tactics-add-list">
+        dd
+      </div>
     </div>
     <div id="display-page">
       <div id="display-title">Deserialize Result:</div>
-      <button id="download-output-button" type="button" class="click-btn-v2 last-button">Download</button>
-      <button id="clear-output-button" type="button" class="click-btn-v2 last-button">Clear</button>
       <div id="display-output"></div>
     </div>
     <div class="footer-page">

@@ -1,24 +1,11 @@
+html {
+  height: 100%;
+}
+
 body{
     background: url("../image/bg-org.png");
     margin: 0px;
-}
-
-#gradient-horizontal{
-    --color-stop-1: #a770ef;
-    --color-stop-2: #cf8bf3;
-    --color-stop-3: #fdb99b;
-}
-
-#gradient-vertical-1{
-    --color-stop-1: #a770ef;
-    --color-stop-2: #cf8bf3;
-    --color-stop-3: #fdb99b;
-}
-
-#gradient-vertical-2{
-    --color-stop-1: #00c3ff;
-    --color-stop-2: #77e190;
-    --color-stop-3: #ffff1c;
+    min-height: 100%;
 }
 
 .wrapper-0{
@@ -37,10 +24,14 @@ body{
     padding-left: 30px;
 }
 
+.kanban{
+    height: 100px;
+    padding-top: 20px;
+}
+
 .kanban .title{
     position: absolute;
     text-align: center;
-    top: 5px;
 }
 
 .kanban .title1{
@@ -53,149 +44,47 @@ body{
 
 .kanban .note{
     margin-left: 180px;
-    padding-top: 15px;
+    padding-top: 8px;
 }
 
 .kanban .note span{
     display: block;
 }
 
-.prepare-data{
-    margin: 20px 0px;
-    position: relative;
+#tactics-input{
+    padding: 20px 0px;
 }
 
-.prepare-data .step1{
-    width: 480px;
-    display: inline-block;
+.tactics-symbol-select{
+    padding: 20px 0px;
+    display: grid;
+    grid-template-columns: 180px 560px 10px auto;
+    align-items: center;
 }
 
-.step .description{
-    padding: 10px 0px;
+#tactics-select{
+    font-size: x-large;
+    background: white;
 }
 
-.step .description-2{
-    padding: 0px;
-    padding-bottom: 5px;
-    display: inline-block;
+#tactics-description{
+    float: right;
 }
 
-.select-proto{
-    display: inline-block;
+#add-symbol-input{
+    font-size: x-large;
+    min-width: 240px;
 }
 
-.select-proto > *{
-    max-width: 265px;
-    font-family: inherit;
-}
 
-.upload-panel{
-    padding: 0px;
-}
 
-.drop-zone{
-    border: 2px dashed #bbb;
-    min-height: 200px;
-    position: relative;
-    cursor: pointer;
-}
-
-.upload-icon{
-    position: relative;
-    text-align: center;
-    top: 20px;
-}
-
-.drag-description{
-    position: relative;
-    text-align: center;
-    top: 5px;
-    font-size: larger;
-}
-
-.upload-file-icon{
-padding: 0px;
-    width: fit-content;
-    padding: 0px 5px;
-    background: #ccc;
-    color: white;
-    position: absolute;
-    bottom: 3px;
-    right: 3px;
-    cursor: default;
-}
-
-.ctrl-pannel{
-    padding: 10px 0px;
-    position: relative;
-}
-
-.click-btn-v2{
-    height: 35px;
-    width: 90px;
-    background: #66DDAA;
-    font-size: larger;
-    font-family: inherit;
-    margin-right: 30px;
-}
-
-.click-btn-v2:hover {
-    background-color: #58bc9b;
-}
-
-.last-button{
-    position: absolute;
-    right: 3px;
-    width: 150px;
-    margin-right: 0px;
-}
-
-.prepare-data .step2{
-    width: 480px;
-    display: inline-block;
-    position: absolute;
-    right: 0px;
-}
-
-.status{
-    border: 1px solid #ccc;
-    padding: 10px;
-    position: relative;
-    margin-top: 50px;
-    margin-bottom: 100px;
-}
-
-.status-data{
-    padding: 5px 0px;
-}
-
-.status-title{
-    min-width: 70px;
-    display: inline-block;    
-}
-
-.status-content{
-    padding: 0px;
-}
 
 #display-page{
     position: relative;
 }
 
 #display-title{
-    position: absolute;
     font-size: x-large;
-    top: -45px;
-}
-
-#download-output-button{
-    right: 200px;
-    top: -45px;
-}
-
-#clear-output-button{
-    padding: 0px;
-    top: -45px;
 }
 
 #display-output{
@@ -207,7 +96,7 @@ padding: 0px;
 }
 
 .footer-page{
-    margin: 20px 0px;
+    margin-top: 20px;
 }
 
 .relate-links{
@@ -232,33 +121,4 @@ padding: 0px;
 
 .copyright{
     padding-bottom: 10px;
-}
-
-.container {
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-
-#proto-list-select {
-    padding: 5px;
-    margin: 5px 0px;
-}
-
-#drop_zone {
-    border: 2px dashed #bbb;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    padding: 25px;
-    text-align: center;
-    font: 20pt bold 'Vollkorn';
-    color: #bbb;
-}
-
-#output {
-    border: 1px solid #999;
-    margin: 10px 0px;
-    width: 100%;
-    min-height: 500px;
-    white-space: pre;
 }
