@@ -41,23 +41,86 @@
           <option value="tactic1">tactic1</option>
           <option value="tactic2">tactic2</option>
         </select>
-        <div><span class="span-x-large" id="tactics-description">Select the scan tactic and input stocks' symbol:</span></div>
+        <div><span class="span-x-large text-right">Select the scan tactic and input stocks' symbol:</span></div>
         <div></div>
         <input type="text" id="add-symbol-input" placeholder=" T, GOOG, AAPL" name="input-symbols">
       </div>
-      <div id="tactics-args">
-        dd
+      <div id="tactics-console">
+        <div id="tactics-content-description" class="span-large">test test test test test test test test test test test test test test test test test test test test test test test test test test test test</div>
+        <div id="tactics-args">
+          <div class="tactics-arg-text"><span class="span-x-large text-right">xxx:</span></div>
+          <div></div>
+          <input type="text" id="tactics-arg-val-1" name="tactics-arg-val-1">
+          <div></div>
+          <div class="tactics-arg-text"><span class="span-x-large text-right">xxx:</span></div>
+          <div></div>
+          <input type="text" id="tactics-arg-val-2" name="tactics-arg-val-2">
+          <div></div>
+          <div class="tactics-arg-text"><span class="span-x-large text-right">xxx:</span></div>
+          <div></div>
+          <input type="text" id="tactics-arg-val-3" name="tactics-arg-val-3">
+          <div></div>
+          <div class="tactics-arg-text"><span class="span-x-large text-right">xxx:</span></div>
+          <div></div>
+          <input type="text" id="tactics-arg-val-4" name="tactics-arg-val-4">
+          <div></div>
+          <div class="tactics-arg-text"><span class="span-x-large text-right">xxx:</span></div>
+          <div></div>
+          <input type="text" id="tactics-arg-val-5" name="tactics-arg-val-5">
+          <div></div>
+          <div class="tactics-arg-text"><span class="span-x-large text-right">xxx:</span></div>
+          <div></div>
+          <input type="text" id="tactics-arg-val-6" name="tactics-arg-val-6">
+          <div></div>
+        </div>
       </div>
-      <div id="tactics-ctrl">
-        bb
+      <div id="ctrl-pannel">
+        <button id="reset-button" type="button" class="click-btn-v2">Reset</button>
+        <button id="add-button" type="button" class="click-btn-v2 last-button">Add</button>
       </div>
       <div id="tactics-add-list">
-        dd
+        <table id="tactics-table">
+          <thead>
+            <th id="th-name" class="span-large">Name</th>
+            <th id="th-parameter" class="span-large">Parameter</th>
+            <th id="th-del" class="span-large">Del</th>
+          </thead>
+          <tbody id="tactics-tbody">
+            <tr class="tactics-tr">
+              <td class="name-td">Tactics1</td>
+              <td class="parameter-td">zdasdsadasdasdasdasdsdsadsadsadsadd</td>
+              <td><span class="remove"><button type="button" class="close remove-tactic"><span>&times;</span></button></span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div id="display-page">
-      <div id="display-title">Deserialize Result:</div>
-      <div id="display-output"></div>
+      <fieldset class="scan-block scan-group">
+        <legend class="scan-block">Scan Results</legend>
+        <div class="scan-output">
+          <div class="output-stage1">
+            <div class="output-norn-image"><img src="./image/norn.png"></div>
+            <div class="output-info1">
+              <span class="span-xx-large output-name">Tactic1</span>
+              <div class="output-info1-baseinfo">
+                <div class="base-data"><span class="span-large">ROE:</span><span class="span-large base-data-value">15%</span></div><div></div>
+                <div class="base-data"><span class="span-large">ROE:</span><span class="span-large base-data-value">15%</span></div><div></div>
+                <div class="base-data"><span class="span-large">ROE:</span><span class="span-large base-data-value">15%</span></div><div></div>
+                <div class="base-data"><span class="span-large">ROE:</span><span class="span-large base-data-value">15%</span></div><div></div>
+                <div class="base-data"><span class="span-large">ROE:</span><span class="span-large base-data-value">15%</span></div><div></div>
+                <div class="base-data"><span class="span-large">ROE:</span><span class="span-large base-data-value">15%</span></div><div></div>
+                <div class="base-data"><span class="span-large">ROE:</span><span class="span-large base-data-value">15%</span></div><div></div>
+              </div>
+            </div>
+            <div class="output-info2">
+              <div><img class="bomb-icon" src="./image/bomb.png"></div>
+              <div class="span-x-large bomb-rate">78%</div>
+            </div>
+          </div>
+          <div class="output-stage2">yyy</div>
+        </div>
+      </fieldset>
     </div>
     <div class="footer-page">
       <div class="relate-links">
