@@ -173,6 +173,32 @@ button.remove{
     width: 50px;  
 }
 
+#ctrl-table-pannel{
+    padding-top: 30px;
+    display: grid;
+    grid-template-columns: 60px auto 60px;
+    align-items: center;
+}
+
+.shield{
+    height: 60px;
+}
+
+.shield-img{
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+}
+
+#scan-button{
+    width: 95%;
+    display: block;
+    margin: auto;
+    height: 40px;
+    font-size: x-large;
+}
+
 #display-page{
     position: relative;
     margin-top: 50px;
