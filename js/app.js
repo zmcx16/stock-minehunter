@@ -6,6 +6,17 @@ const bg_color = [  { 'bg1': 'aliceblue', 'bg2': 'rgb(255,251,248)' },
                     { 'bg1': 'mintcream', 'bg2': 'mintcream' },
                     { 'bg1': 'snow', 'bg2': 'snow' }];
 
+// loading config
+var loadingTimeInterval = null;
+var loadingNowStep = 0;
+const loadingImgSize = { w: 96, h: 96 };
+const loadingStep = 5;
+const loadingDelay = 25;
+const loadingWH = 150;
+
+// tactics data
+var tactics_data = null;
+
 function selectBasicColor()
 {
     var select = Math.floor(Math.random() * bg_color.length);
@@ -13,6 +24,137 @@ function selectBasicColor()
     $('.wrapper-0').css('background', bg_color[select].bg2);
 }
 
+function LoadingImg(enable){
+    if (enable){
+        $("#block-all").css("display", "block");
+        var center_x = window.innerWidth / 2;
+        var center_y = window.innerHeight / 2;
+
+        $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + "px";
+        $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + "px";
+        loadingTimeInterval = setInterval(function () {
+            loadingNowStep = (loadingNowStep + loadingStep) % (loadingWH * 4);
+            if (loadingNowStep / loadingWH < 1) {
+                $("#elf-backward-gif").css("display", "none");
+                $("#elf-right-gif").css("display", "block");
+                $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + "px";
+                $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + loadingNowStep % loadingWH + "px";
+            } else if (loadingNowStep / loadingWH < 2) {
+                $("#elf-right-gif").css("display", "none");
+                $("#elf-forward-gif").css("display", "block");
+                $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + loadingNowStep % loadingWH + "px";
+                $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + loadingWH + "px";
+            } else if (loadingNowStep / loadingWH < 3) {
+                $("#elf-forward-gif").css("display", "none");
+                $("#elf-left-gif").css("display", "block");
+                $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + loadingWH + "px";
+                $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + loadingWH - loadingNowStep % loadingWH + "px";
+            } else {
+                $("#elf-left-gif").css("display", "none");
+                $("#elf-backward-gif").css("display", "block");
+                $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + loadingWH - loadingNowStep % loadingWH + "px";
+                $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + "px";
+            }
+        }, loadingDelay);
+    }else{
+        loadingNowStep = 0;
+        clearInterval(loadingTimeInterval);
+        $("#block-all").css("display", "none");
+        $("#elf-right-gif").css("display", "none");
+        $("#elf-forward-gif").css("display", "none");
+        $("#elf-left-gif").css("display", "none");
+        $("#elf-backward-gif").css("display", "none");
+    }
+}
+
+function loadTactics(data){
+    tactics_data = data;
+
+    $("#tactics-select")[0].innerHTML = "";
+    tactics_data.forEach(element => {
+        $("#tactics-select")[0].innerHTML += '<option value="' + element.type + '">' + element.type_display + '</option>';
+    });
+
+    loadTacticsArgs();
+}
+
+function loadTacticsArgs(){
+    var list_index = $("#tactics-select")[0].selectedIndex;
+
+    $("#tactics-content-description")[0].innerHTML = tactics_data[list_index].description;
+    $("#tactics-args")[0].innerHTML = 
+        '<div class="tactics-arg-text"><span class="span-large text-right">Tactic Name:</span></div>'+
+        '<div></div>'+
+        '<input type="text" id="tactics-arg-val-name" name="tactics-arg-val-name">'+
+        '<div></div>';
+    tactics_data[list_index].args.forEach(function(element, index, array){
+        $("#tactics-args")[0].innerHTML += 
+            '<div class="tactics-arg-text"><span class="span-large text-right">' + element.name_display + '</span></div>' +
+            '<div></div>' +
+            '<input type="text" id="tactics-arg-val-' + index + '" name="tactics-arg-val-' + index + '" value="' + element.default + '">' +
+            '<div></div>';
+    });
+
+}
+
+function addTactic() {
+
+    var err_msg = "The tactic parameter are invalid, add tactic failed.";
+
+    if (!$("#add-symbol-input")[0].value){
+        $('#alert-dialog-content')[0].innerText = err_msg;
+        $('#alert-dialog-hidden-btn').click();
+        return;
+    }
+
+    var tactic_input = $("#tactics-args").children('input');
+    for (var i = 0; i < tactic_input.length; i++) {
+        if (!tactic_input[i].value){
+            $('#alert-dialog-content')[0].innerText = err_msg;
+            $('#alert-dialog-hidden-btn').click();
+            return;
+        }
+    }
+
+    var list_index = $("#tactics-select")[0].selectedIndex;
+
+    $("#tactics-tbody")[0].innerHTML +=
+        '<tr class="tactics-tr">'+
+            '<td class="name-td">' + $("#tactics-arg-val-name")[0].value + '</td>'+
+            '<td class="type-td">' + tactics_data[list_index].type + '</td>'+
+            '<td class="type-target">' + $("#add-symbol-input")[0].value + '</td>' +
+            buildTacticParameter(list_index, tactic_input)+
+            '<td><span class="remove"><button type="button" class="close remove-tactic"><span>&times;</span></button></span></td>'+
+        '</tr>';
+
+    $("#tactics-add-list").css("display","block");
+
+    $('.close.remove-tactic').unbind("click");
+    $('.close.remove-tactic').click(function () {
+        $(this).parent().parent().parent().remove();
+        if (!$(".tactics-tr")[0]){
+            $("#tactics-add-list").css("display", "none");
+        }
+    });
+}
+
+function buildTacticParameter(list_index, tactic_input){
+
+    var display_data = "";
+    var para_data = {};
+
+    for (var i = 0; i < tactic_input.length; i++) {
+        var name = tactic_input[i].id.replace("tactics-arg-val-", "");
+        if (name !== "name") {
+            var key = tactics_data[list_index].args[parseInt(name)].name;
+            var val = tactic_input[i].value;
+            para_data[key] = val;
+            display_data += key + ": " + val + "; ";
+        }
+    }
+
+    return '<td class="parameter-td" value="' + btoa(JSON.stringify(para_data)) + '">' + display_data + '</td>';
+}
 
 // start
 $(document).ready(function () {
@@ -21,4 +163,55 @@ $(document).ready(function () {
     selectBasicColor();
     var stretchHeight = window.innerHeight - ($(".wrapper").height() - $("#display-output").height());
     $("#display-output").css("min-height", stretchHeight);
+    LoadingImg(true);
+
+    // get tactics
+    $.ajax({
+        url: 'https://zmcx16.moe/stock-minehunter/api/task/get-tactics',
+        async: true,
+        success: function (resp_data, textStatus, xhr) {
+            if (resp_data) {
+                console.log(resp_data);
+                loadTactics(resp_data.data);
+                LoadingImg(false);
+            }
+            else {
+                console.log('get tactics failed: ' + xhr);
+                $('#alert-dialog-content')[0].innerText = "Get Tactics failed.";
+                $('#alert-dialog-hidden-btn').click();
+            }
+        },
+        fail: function (xhr, textStatus, errorThrown) {
+            console.log('get tactics failed: ' + xhr);
+            console.log('get tactics failed: ' + textStatus);
+            console.log('get tactics failed: ' + errorThrown);
+            $('#alert-dialog-content')[0].innerText = "Get Tactics failed, please try reload the page again.";
+            $('#alert-dialog-hidden-btn').click();
+        },
+        timeout: 30000
+    });
+
+
+    // event register
+    $("#scan-button").click(function(){
+        LoadingImg(true);
+    });
+
+    $("#tactics-select").on('change', function(){
+        if(tactics_data){
+            loadTacticsArgs();
+        }
+    });
+
+    $("#reset-button").click(function () {
+        if (tactics_data) {
+            loadTacticsArgs();
+        }
+    });
+
+    $("#add-button").click(function () {
+        if (tactics_data) {
+            addTactic();
+        }
+    });
 });

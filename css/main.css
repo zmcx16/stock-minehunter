@@ -63,7 +63,7 @@ body{
 }
 
 #tactics-select{
-    font-size: x-large;
+    font-size: larger;
     background: white;
 }
 
@@ -72,7 +72,7 @@ body{
 }
 
 #add-symbol-input{
-    font-size: x-large;
+    font-size: large;
     min-width: 240px;
 }
 
@@ -88,14 +88,15 @@ body{
 #tactics-content-description{
     border: 4px double#bbb;
     width: 100%;
-    white-space: initial;
+    white-space: pre-line;
     padding: 5px 10px;
+    line-height: 40px;
 }
 
 #tactics-args{
     padding-top: 30px;
     display: grid;
-    grid-template-columns: 1fr 10px 80px 30px 1fr 10px 80px 30px 1fr 10px 80px 0px;
+    grid-template-columns: 1fr 5px 75px 10px 1fr 5px 75px 10px 1fr 5px 75px 0px;
     align-items: center;
 }
 
@@ -169,6 +170,10 @@ button.remove{
     width: 150px;  
 }
 
+#th-target{
+    width: 150px;  
+}
+
 #th-del{
     width: 50px;  
 }
@@ -176,15 +181,16 @@ button.remove{
 #ctrl-table-pannel{
     padding-top: 30px;
     display: grid;
-    grid-template-columns: 60px auto 60px;
+    grid-template-columns: 100px auto 100px;
     align-items: center;
+    height: 120px;
 }
 
-.shield{
-    height: 60px;
+.guard-elf{
+    height: 120px;
 }
 
-.shield-img{
+.guard-elf-img{
     max-width: 100%;
     max-height: 100%;
     display: block;

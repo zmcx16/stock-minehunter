@@ -23,6 +23,17 @@
   <script src="./js/app.js"></script>
 </head>
 <body>
+  <div id="block-all" style="position:fixed;
+              z-index: 2;
+              top:0; left:0; bottom:0; right:0;
+              background:rgba(0,0,0,.5);
+              display: block;"></div>
+  <div id="loading-img" style="z-index: 3; position: fixed;">
+    <img id="elf-left-gif" src="./image/elf/gif/left-hola.gif" style="display:none;">
+    <img id="elf-right-gif" src="./image/elf/gif/right-hola.gif" style="display:none;">
+    <img id="elf-forward-gif" src="./image/elf/gif/forward-hola.gif" style="display:none;">
+    <img id="elf-backward-gif" src="./image/elf/gif/backward-hola.gif" style="display:none;">
+  </div>
   <div class="wrapper-0">
   <div class="wrapper">
     <div class="kanban">
@@ -38,72 +49,35 @@
     <div id="tactics-input">
       <div class="tactics-symbol-select">
         <select id="tactics-select">
-          <option value="tactic1">tactic1</option>
-          <option value="tactic2">tactic2</option>
         </select>
         <div><span class="span-x-large text-right">Select the scan tactic and input stocks' symbol:</span></div>
         <div></div>
         <input type="text" id="add-symbol-input" placeholder=" T, GOOG, AAPL" name="input-symbols">
       </div>
       <div id="tactics-console">
-        <div id="tactics-content-description" class="span-large">test test test test test test test test test test test test test test test test test test test test test test test test test test test test</div>
-        <div id="tactics-args">
-          <div class="tactics-arg-text"><span class="span-large text-right">Name:</span></div>
-          <div></div>
-          <input type="text" id="tactics-arg-val-name" name="tactics-arg-val-name">
-          <div></div>
-          <div class="tactics-arg-text"><span class="span-large text-right">xxx:</span></div>
-          <div></div>
-          <input type="text" id="tactics-arg-val-1" name="tactics-arg-val-1">
-          <div></div>
-          <div class="tactics-arg-text"><span class="span-large text-right">xxx:</span></div>
-          <div></div>
-          <input type="text" id="tactics-arg-val-2" name="tactics-arg-val-2">
-          <div></div>
-          <div class="tactics-arg-text"><span class="span-large text-right">xxx:</span></div>
-          <div></div>
-          <input type="text" id="tactics-arg-val-3" name="tactics-arg-val-3">
-          <div></div>
-          <div class="tactics-arg-text"><span class="span-large text-right">xxx:</span></div>
-          <div></div>
-          <input type="text" id="tactics-arg-val-4" name="tactics-arg-val-4">
-          <div></div>
-          <div class="tactics-arg-text"><span class="span-large text-right">xxx:</span></div>
-          <div></div>
-          <input type="text" id="tactics-arg-val-5" name="tactics-arg-val-5">
-          <div></div>
-          <div class="tactics-arg-text"><span class="span-large text-right">xxx:</span></div>
-          <div></div>
-          <input type="text" id="tactics-arg-val-6" name="tactics-arg-val-6">
-          <div></div>
-        </div>
+        <div id="tactics-content-description" class="span-large"></div>
+        <div id="tactics-args"></div>
       </div>
       <div id="ctrl-pannel">
         <button id="reset-button" type="button" class="click-btn-v2">Reset</button>
         <button id="add-button" type="button" class="click-btn-v2 last-button">Add</button>
       </div>
-      <div id="tactics-add-list">
+      <div id="tactics-add-list" style="display:none;">
         <table id="tactics-table">
           <thead>
             <th id="th-name" class="span-large">Name</th>
             <th id="th-type" class="span-large">Type</th>
+            <th id="th-target" class="span-large">Target</th>
             <th id="th-parameter" class="span-large">Parameter</th>
             <th id="th-del" class="span-large">Del</th>
           </thead>
-          <tbody id="tactics-tbody">
-            <tr class="tactics-tr">
-              <td class="name-td">Tactics1</td>
-              <td class="type-td">PeterLynch_v1</td>
-              <td class="parameter-td">zdasdsadasdasdasdasdsdsadsadsadsadd</td>
-              <td><span class="remove"><button type="button" class="close remove-tactic"><span>&times;</span></button></span></td>
-            </tr>
-          </tbody>
+          <tbody id="tactics-tbody"></tbody>
         </table>
       </div>
       <div id="ctrl-table-pannel">
-        <div class="shield"><img class="shield-img" src="./image/shield.png"></div>
+        <div class="guard-elf"><img class="guard-elf-img" src="./image/elf/image_1_7.png"></div>
         <button id="scan-button" type="button" class="click-btn-v2">Scan</button>
-        <div class="shield"><img class="shield-img" src="./image/shield.png"></div>
+        <div class="guard-elf"><img class="guard-elf-img" src="./image/elf/image_1_4.png"></div>
       </div>
     </div>
     <div id="display-page">
@@ -143,6 +117,21 @@
       <div class="copyright"><span class="copyright-icon">©</span>zmcx16 All rights reserved.</div>
     </div>
   </div>
+  </div>
+  <div id="alert-dialog-hidden-btn" style="display:none;" data-toggle="modal" data-target="#alert-dialog"></div>
+  <div id="alert-dialog" class="modal inmodal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+    data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title"></div>
+          <div id="alert-dialog-content"></div>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
