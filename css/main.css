@@ -225,6 +225,7 @@ legend.scan-block {
 
 .scan-output{
     border: 2px solid #bbb;
+    margin-bottom: 30px;
 }
 
 .output-stage1{
@@ -245,7 +246,7 @@ legend.scan-block {
 .output-info1-baseinfo{
     padding-top:10px;
     display: grid;
-    grid-template-columns: 150px 30px 150px 30px 150px 30px;
+    grid-template-columns: 165px 15px 165px 15px 165px 15px;
     align-items: center;
 }
 
@@ -258,6 +259,7 @@ legend.scan-block {
 .base-data-value{
     position: absolute;
     right: 0px;
+    bottom: 0px;
 }
 
 .output-info2{
@@ -279,7 +281,9 @@ legend.scan-block {
     margin: 10px;
     min-height: 100px;
     border: 2px solid #bbb;
-    padding: 10px;
+    white-space: pre-line;
+    padding: 5px 10px;
+    line-height: 30px;
 }
 
 .footer-page{

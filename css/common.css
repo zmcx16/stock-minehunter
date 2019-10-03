@@ -118,6 +118,10 @@ legend.sync-block {
   font-size: large;
 }
 
+.span-12px{
+  font-size: 12px;
+}
+
 #alert-dialog-content{
   font-size: x-large;
   font-family: 'Comic Sans', 'Comic Sans MS';

@@ -17,8 +17,7 @@ const loadingWH = 150;
 // tactics data
 var tactics_data = null;
 
-function selectBasicColor()
-{
+function selectBasicColor(){
     var select = Math.floor(Math.random() * bg_color.length);
     $('body').css('background-color', bg_color[select].bg1);
     $('.wrapper-0').css('background', bg_color[select].bg2);
@@ -99,18 +98,18 @@ function loadTacticsArgs(){
 
 function addTactic() {
 
-    var err_msg = "The tactic parameter are invalid, add tactic failed.";
-
     if (!$("#add-symbol-input")[0].value){
-        $('#alert-dialog-content')[0].innerText = err_msg;
+        $('#alert-dialog-content')[0].innerText = "The target symbols are invalid, add tactic failed.";
         $('#alert-dialog-hidden-btn').click();
         return;
     }
 
+    var targets = $("#add-symbol-input")[0].value.split(' ').join('').split(',').join(',');
+
     var tactic_input = $("#tactics-args").children('input');
     for (var i = 0; i < tactic_input.length; i++) {
         if (!tactic_input[i].value){
-            $('#alert-dialog-content')[0].innerText = err_msg;
+            $('#alert-dialog-content')[0].innerText = "The tactic parameter are invalid, add tactic failed.";
             $('#alert-dialog-hidden-btn').click();
             return;
         }
@@ -122,7 +121,7 @@ function addTactic() {
         '<tr class="tactics-tr">'+
             '<td class="name-td">' + $("#tactics-arg-val-name")[0].value + '</td>'+
             '<td class="type-td">' + tactics_data[list_index].type + '</td>'+
-            '<td class="type-target">' + $("#add-symbol-input")[0].value + '</td>' +
+            '<td class="target-td">' + targets + '</td>' +
             buildTacticParameter(list_index, tactic_input)+
             '<td><span class="remove"><button type="button" class="close remove-tactic"><span>&times;</span></button></span></td>'+
         '</tr>';
@@ -156,6 +155,121 @@ function buildTacticParameter(list_index, tactic_input){
     return '<td class="parameter-td" value="' + btoa(JSON.stringify(para_data)) + '">' + display_data + '</td>';
 }
 
+function sendScan(){
+
+    if (!$(".tactics-tr")[0]) {
+        $('#alert-dialog-content')[0].innerText = "No tactic data, please add tactic data and try again.";
+        $('#alert-dialog-hidden-btn').click();
+        return;
+    }
+
+    var data = [];
+    try {
+        $(".tactics-tr").each(function () {
+            var tactic_data = {};
+            tactic_data["name"] = $(this).find(".name-td")[0].outerText;
+            tactic_data["type"] = $(this).find(".type-td")[0].outerText;
+            tactic_data["target"] = $(this).find(".target-td")[0].outerText.split(',');
+            tactic_data["args"] = JSON.parse(atob($(this).find(".parameter-td").attr("value")));
+
+            data.push(tactic_data);
+            //console.log($(this));
+            //console.log(tactic_data);
+        });
+    } catch (ex) {
+        console.log(ex);
+        $('#alert-dialog-content')[0].innerText = "Parse tactic data failed, the tactic data are invalid.";
+        $('#alert-dialog-hidden-btn').click();
+        return;
+    }
+
+    // get scan result
+    LoadingImg(true);
+    $.ajax({
+        type: 'POST',
+        url: 'https://zmcx16.moe/stock-minehunter/api/task/do-scan',   
+        async: true,
+        data: "=" + JSON.stringify({ "data": data }),
+        success: function (resp_data, textStatus, xhr) {
+            LoadingImg(false);
+            if (resp_data) {
+                console.log(resp_data);
+                displayScanReports(resp_data);
+            }
+            else {
+                console.log('get scan reports failed: ' + xhr);
+                $('#alert-dialog-content')[0].innerText = "Get scan reports failed.";
+                $('#alert-dialog-hidden-btn').click();
+            }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            LoadingImg(false);
+            console.log('Get scan reports failed: ' + xhr);
+            console.log('Get scan reports failed: ' + textStatus);
+            console.log('Get scan reports failed: ' + errorThrown);
+            $('#alert-dialog-content')[0].innerText = "Get scan reports failed.";
+            $('#alert-dialog-hidden-btn').click();
+        },
+        timeout: 180000
+    });
+}
+
+function displayScanReports(resp_data){
+
+    if (resp_data["ret"] !== 0){
+        $('#alert-dialog-content')[0].innerText = resp_data["err_msg"];
+        $('#alert-dialog-hidden-btn').click();
+        return;
+    }
+
+    $("#scan-output-container")[0].innerHTML = "";
+    resp_data.data.forEach(element=>{
+        //console.log(element);
+        var score_dict = {"pass": 0, "fail": 0, "nodata": 0};
+        var report_detail = "";
+        var base_info = "";
+
+        Object.entries(element["baseinfo"]).forEach(([key, value]) => {
+            base_info += '<div class="base-data"><span class="span-12px">' + key + ':</span><span class="span-12px base-data-value">' + value + '</span></div><div></div>';
+        });
+
+        element["report"].forEach((arg)=>{
+            if (arg["pass"]===-1){
+                report_detail += '<span style="color: red;">[Fail] </span>';
+                score_dict["fail"] += 1;
+            } else if (arg["pass"] === 1) {
+                report_detail += '<span style="color: limegreen;">[Pass] </span>';
+                score_dict["pass"] += 1;
+            }else{
+                report_detail += '<span>[No Data] </span>';
+                score_dict["nodata"] += 1;
+            }
+            report_detail += arg["msg"] + "\n";
+        });
+        
+        var name = element["name"] + ": " + element["symbol"];
+        var score = Math.round(score_dict["fail"] / (score_dict["pass"] + score_dict["fail"]) * 100);
+
+        $("#scan-output-container")[0].innerHTML += 
+            '<div class="scan-output">'+
+              '<div class="output-stage1">'+
+                '<div class="output-norn-image"><img src="./image/norn.png"></div>'+
+                '<div class="output-info1">'+
+                  '<span class="span-xx-large output-name">' + name + '</span>'+
+                  '<div class="output-info1-baseinfo">' + base_info + '</div>'+
+                '</div>'+
+                '<div class="output-info2">'+
+                  '<div><img class="bomb-icon" src="./image/bomb.png"></div>'+
+                  '<div class="span-x-large bomb-rate">' + score.toString() + '%</div>'+
+                '</div>'+
+              '</div>'+
+              '<div class="output-stage2">' + report_detail + '</div>'+
+            '</div>';     
+    });
+
+    $('#display-page')[0].scrollIntoView({ behavior: "smooth" });
+}
+
 // start
 $(document).ready(function () {
 
@@ -170,10 +284,10 @@ $(document).ready(function () {
         url: 'https://zmcx16.moe/stock-minehunter/api/task/get-tactics',
         async: true,
         success: function (resp_data, textStatus, xhr) {
+            LoadingImg(false);
             if (resp_data) {
                 console.log(resp_data);
                 loadTactics(resp_data.data);
-                LoadingImg(false);
             }
             else {
                 console.log('get tactics failed: ' + xhr);
@@ -181,22 +295,19 @@ $(document).ready(function () {
                 $('#alert-dialog-hidden-btn').click();
             }
         },
-        fail: function (xhr, textStatus, errorThrown) {
+        error: function (xhr, textStatus, errorThrown) {
+            LoadingImg(false);
             console.log('get tactics failed: ' + xhr);
             console.log('get tactics failed: ' + textStatus);
             console.log('get tactics failed: ' + errorThrown);
             $('#alert-dialog-content')[0].innerText = "Get Tactics failed, please try reload the page again.";
             $('#alert-dialog-hidden-btn').click();
         },
-        timeout: 30000
+        timeout: 60000
     });
 
 
     // event register
-    $("#scan-button").click(function(){
-        LoadingImg(true);
-    });
-
     $("#tactics-select").on('change', function(){
         if(tactics_data){
             loadTacticsArgs();
@@ -212,6 +323,12 @@ $(document).ready(function () {
     $("#add-button").click(function () {
         if (tactics_data) {
             addTactic();
+        }
+    });
+
+    $("#scan-button").click(function () {
+        if (tactics_data) {
+            sendScan();
         }
     });
 });
