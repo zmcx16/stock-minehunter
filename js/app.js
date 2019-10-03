@@ -222,6 +222,8 @@ function displayScanReports(resp_data){
         return;
     }
 
+    $("#display-page").css("display", "block");
+
     $("#scan-output-container")[0].innerHTML = "";
     resp_data.data.forEach(element=>{
         //console.log(element);
