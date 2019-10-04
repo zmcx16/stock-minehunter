@@ -84,7 +84,7 @@ function loadTacticsArgs(){
     $("#tactics-args")[0].innerHTML = 
         '<div class="tactics-arg-text"><span class="span-large text-right">Tactic Name:</span></div>'+
         '<div></div>'+
-        '<input type="text" id="tactics-arg-val-name" name="tactics-arg-val-name">'+
+        '<input type="text" id="tactics-arg-val-name" name="tactics-arg-val-name" value="MyTactic">'+
         '<div></div>';
     tactics_data[list_index].args.forEach(function(element, index, array){
         $("#tactics-args")[0].innerHTML += 
