@@ -66,34 +66,33 @@ function LoadingImg(enable){
     }
 }
 
-function loadTactics(data){
-    tactics_data = data;
-
-    $("#tactics-select")[0].innerHTML = "";
-    tactics_data.forEach(element => {
-        $("#tactics-select")[0].innerHTML += '<option value="' + element.type + '">' + element.type_display + '</option>';
-    });
-
-    loadTacticsArgs();
-}
-
-function loadTacticsArgs(){
+function loadTacticsArgs() {
     var list_index = $("#tactics-select")[0].selectedIndex;
 
     $("#tactics-content-description")[0].innerHTML = tactics_data[list_index].description;
-    $("#tactics-args")[0].innerHTML = 
-        '<div class="tactics-arg-text"><span class="span-large text-right">Tactic Name:</span></div>'+
-        '<div></div>'+
-        '<input type="text" id="tactics-arg-val-name" name="tactics-arg-val-name" value="MyTactic">'+
+    $("#tactics-args")[0].innerHTML =
+        '<div class="tactics-arg-text"><span class="span-large text-right">Tactic Name:</span></div>' +
+        '<div></div>' +
+        '<input type="text" id="tactics-arg-val-name" name="tactics-arg-val-name" value="MyTactic">' +
         '<div></div>';
-    tactics_data[list_index].args.forEach(function(element, index, array){
-        $("#tactics-args")[0].innerHTML += 
+    tactics_data[list_index].args.forEach(function (element, index, array) {
+        $("#tactics-args")[0].innerHTML +=
             '<div class="tactics-arg-text"><span class="span-large text-right">' + element.name_display + '</span></div>' +
             '<div></div>' +
             '<input type="text" id="tactics-arg-val-' + index + '" name="tactics-arg-val-' + index + '" value="' + element.default + '">' +
             '<div></div>';
     });
+}
 
+function loadTactics(data){
+    tactics_data = data;
+
+    $("#tactics-select")[0].innerHTML = "";
+    tactics_data.forEach((element) => {
+        $("#tactics-select")[0].innerHTML += '<option value="' + element.type + '">' + element.type_display + '</option>';
+    });
+
+    loadTacticsArgs();
 }
 
 function addTactic() {
@@ -228,7 +227,7 @@ function displayScanReports(resp_data){
     }
 
     $("#scan-output-container")[0].innerHTML = "";
-    resp_data.data.forEach(element=>{
+    resp_data.data.forEach((element)=>{
         //console.log(element);
         var score_dict = {"pass": 0, "fail": 0, "nodata": 0};
         var report_detail = "";
