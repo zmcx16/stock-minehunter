@@ -23,7 +23,7 @@ function selectBasicColor(){
     $('.wrapper-0').css('background', bg_color[select].bg2);
 }
 
-function LoadingImg(enable){
+function loadingImg(enable){
     if (enable){
         $("#block-all").css("display", "block");
         var center_x = window.innerWidth / 2;
@@ -95,6 +95,25 @@ function loadTactics(data){
     loadTacticsArgs();
 }
 
+
+function buildTacticParameter(list_index, tactic_input) {
+
+    var display_data = "";
+    var para_data = {};
+
+    for (var i = 0; i < tactic_input.length; i++) {
+        var name = tactic_input[i].id.replace("tactics-arg-val-", "");
+        if (name !== "name") {
+            var key = tactics_data[list_index].args[parseInt(name)].name;
+            var val = tactic_input[i].value;
+            para_data[key] = val;
+            display_data += key + ": " + val + "; ";
+        }
+    }
+
+    return '<td class="parameter-td" value="' + btoa(JSON.stringify(para_data)) + '">' + display_data + '</td>';
+}
+
 function addTactic() {
 
     if (!$("#add-symbol-input")[0].value){
@@ -136,22 +155,60 @@ function addTactic() {
     });
 }
 
-function buildTacticParameter(list_index, tactic_input){
+function displayScanReports(resp_data) {
 
-    var display_data = "";
-    var para_data = {};
-
-    for (var i = 0; i < tactic_input.length; i++) {
-        var name = tactic_input[i].id.replace("tactics-arg-val-", "");
-        if (name !== "name") {
-            var key = tactics_data[list_index].args[parseInt(name)].name;
-            var val = tactic_input[i].value;
-            para_data[key] = val;
-            display_data += key + ": " + val + "; ";
-        }
+    if (resp_data["ret"] !== 0) {
+        $('#alert-dialog-content')[0].innerText = resp_data["err_msg"];
+        $('#alert-dialog-hidden-btn').click();
+        return;
     }
 
-    return '<td class="parameter-td" value="' + btoa(JSON.stringify(para_data)) + '">' + display_data + '</td>';
+    $("#scan-output-container")[0].innerHTML = "";
+    resp_data.data.forEach((element) => {
+        //console.log(element);
+        var score_dict = { "pass": 0, "fail": 0, "nodata": 0 };
+        var report_detail = "";
+        var base_info = "";
+
+        Object.entries(element["baseinfo"]).forEach(([key, value]) => {
+            base_info += '<div class="base-data"><span class="span-12px">' + key + ':</span><span class="span-12px base-data-value">' + value + '</span></div><div></div>';
+        });
+
+        element["report"].forEach((arg) => {
+            if (arg["pass"] === -1) {
+                report_detail += '<span style="color: red;">[Fail] </span>';
+                score_dict["fail"] += 1;
+            } else if (arg["pass"] === 1) {
+                report_detail += '<span style="color: limegreen;">[Pass] </span>';
+                score_dict["pass"] += 1;
+            } else {
+                report_detail += '<span>[No Data] </span>';
+                score_dict["nodata"] += 1;
+            }
+            report_detail += arg["msg"] + "\n";
+        });
+
+        var name = element["name"] + ": " + element["symbol"];
+        var score = Math.round(score_dict["fail"] / (score_dict["pass"] + score_dict["fail"]) * 100);
+
+        $("#scan-output-container")[0].innerHTML +=
+            '<div class="scan-output">' +
+            '<div class="output-stage1">' +
+            '<div class="output-norn-image"><img src="./image/norn.png"></div>' +
+            '<div class="output-info1">' +
+            '<span class="span-xx-large output-name">' + name + '</span>' +
+            '<div class="output-info1-baseinfo">' + base_info + '</div>' +
+            '</div>' +
+            '<div class="output-info2">' +
+            '<div><img class="bomb-icon" src="./image/bomb.png"></div>' +
+            '<div class="span-x-large bomb-rate">' + score.toString() + '%</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="output-stage2">' + report_detail + '</div>' +
+            '</div>';
+    });
+
+    $('#display-page')[0].scrollIntoView({ behavior: "smooth" });
 }
 
 function sendScan(){
@@ -183,14 +240,14 @@ function sendScan(){
     }
 
     // get scan result
-    LoadingImg(true);
+    loadingImg(true);
     $.ajax({
         type: 'POST',
         url: 'https://zmcx16.moe/stock-minehunter/api/task/do-scan',   
         async: true,
         data: "=" + JSON.stringify({ "data": data }),
         success: function (resp_data, textStatus, xhr) {
-            LoadingImg(false);
+            loadingImg(false);
             if (resp_data) {
                 console.log(resp_data);
                 displayScanReports(resp_data);
@@ -202,7 +259,7 @@ function sendScan(){
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-            LoadingImg(false);
+            loadingImg(false);
             console.log('Get scan reports failed: ' + xhr);
             console.log('Get scan reports failed: ' + textStatus);
             console.log('Get scan reports failed: ' + errorThrown);
@@ -218,75 +275,19 @@ function resizeWindowHeight(){
     $("#scan-output-container").css("min-height", stretchHeight);
 }
 
-function displayScanReports(resp_data){
-
-    if (resp_data["ret"] !== 0){
-        $('#alert-dialog-content')[0].innerText = resp_data["err_msg"];
-        $('#alert-dialog-hidden-btn').click();
-        return;
-    }
-
-    $("#scan-output-container")[0].innerHTML = "";
-    resp_data.data.forEach((element)=>{
-        //console.log(element);
-        var score_dict = {"pass": 0, "fail": 0, "nodata": 0};
-        var report_detail = "";
-        var base_info = "";
-
-        Object.entries(element["baseinfo"]).forEach(([key, value]) => {
-            base_info += '<div class="base-data"><span class="span-12px">' + key + ':</span><span class="span-12px base-data-value">' + value + '</span></div><div></div>';
-        });
-
-        element["report"].forEach((arg)=>{
-            if (arg["pass"]===-1){
-                report_detail += '<span style="color: red;">[Fail] </span>';
-                score_dict["fail"] += 1;
-            } else if (arg["pass"] === 1) {
-                report_detail += '<span style="color: limegreen;">[Pass] </span>';
-                score_dict["pass"] += 1;
-            }else{
-                report_detail += '<span>[No Data] </span>';
-                score_dict["nodata"] += 1;
-            }
-            report_detail += arg["msg"] + "\n";
-        });
-        
-        var name = element["name"] + ": " + element["symbol"];
-        var score = Math.round(score_dict["fail"] / (score_dict["pass"] + score_dict["fail"]) * 100);
-
-        $("#scan-output-container")[0].innerHTML += 
-            '<div class="scan-output">'+
-              '<div class="output-stage1">'+
-                '<div class="output-norn-image"><img src="./image/norn.png"></div>'+
-                '<div class="output-info1">'+
-                  '<span class="span-xx-large output-name">' + name + '</span>'+
-                  '<div class="output-info1-baseinfo">' + base_info + '</div>'+
-                '</div>'+
-                '<div class="output-info2">'+
-                  '<div><img class="bomb-icon" src="./image/bomb.png"></div>'+
-                  '<div class="span-x-large bomb-rate">' + score.toString() + '%</div>'+
-                '</div>'+
-              '</div>'+
-              '<div class="output-stage2">' + report_detail + '</div>'+
-            '</div>';     
-    });
-
-    $('#display-page')[0].scrollIntoView({ behavior: "smooth" });
-}
-
 // start
 $(document).ready(function () {
 
     // init
     selectBasicColor();
-    LoadingImg(true);
+    loadingImg(true);
 
     // get tactics
     $.ajax({
         url: 'https://zmcx16.moe/stock-minehunter/api/task/get-tactics',
         async: true,
         success: function (resp_data, textStatus, xhr) {
-            LoadingImg(false);
+            loadingImg(false);
             if (resp_data) {
                 console.log(resp_data);
                 loadTactics(resp_data.data);
@@ -300,7 +301,7 @@ $(document).ready(function () {
 
         },
         error: function (xhr, textStatus, errorThrown) {
-            LoadingImg(false);
+            loadingImg(false);
             console.log('get tactics failed: ' + xhr);
             console.log('get tactics failed: ' + textStatus);
             console.log('get tactics failed: ' + errorThrown);
