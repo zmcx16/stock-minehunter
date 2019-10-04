@@ -10,6 +10,10 @@ Would you like to share your tactics with everyone? Feel free to contact me: zmc
   * Peter Lynch strategy (Ref: https://valueandgrowthinvesting.com/peter-lynch-screener/)
   * stasistw strategy (Ref: https://valueandgrowthinvesting.com/mai-screener/)
 
+# Financial Data Source
+  * Finviz (https://finviz.com/)
+  * Yahoo Finance (https://finance.yahoo.com/) 
+
 # Demo
 
 # License
