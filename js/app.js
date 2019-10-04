@@ -214,6 +214,11 @@ function sendScan(){
     });
 }
 
+function resizeWindowHeight(){
+    var stretchHeight = window.innerHeight - ($(".wrapper").height() - $("#scan-output-container").height());
+    $("#scan-output-container").css("min-height", stretchHeight);
+}
+
 function displayScanReports(resp_data){
 
     if (resp_data["ret"] !== 0){
@@ -275,8 +280,6 @@ $(document).ready(function () {
 
     // init
     selectBasicColor();
-    var stretchHeight = window.innerHeight - ($(".wrapper").height() - $("#scan-output-container").height());
-    $("#scan-output-container").css("min-height", stretchHeight);
     LoadingImg(true);
 
     // get tactics
@@ -294,6 +297,8 @@ $(document).ready(function () {
                 $('#alert-dialog-content')[0].innerText = "Get Tactics failed.";
                 $('#alert-dialog-hidden-btn').click();
             }
+            resizeWindowHeight();
+
         },
         error: function (xhr, textStatus, errorThrown) {
             LoadingImg(false);
@@ -302,6 +307,8 @@ $(document).ready(function () {
             console.log('get tactics failed: ' + errorThrown);
             $('#alert-dialog-content')[0].innerText = "Get Tactics failed, please try reload the page again.";
             $('#alert-dialog-hidden-btn').click();
+
+            resizeWindowHeight();
         },
         timeout: 60000
     });
