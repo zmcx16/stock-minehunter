@@ -222,8 +222,6 @@ function displayScanReports(resp_data){
         return;
     }
 
-    $("#display-page").css("display", "block");
-
     $("#scan-output-container")[0].innerHTML = "";
     resp_data.data.forEach(element=>{
         //console.log(element);
@@ -277,8 +275,8 @@ $(document).ready(function () {
 
     // init
     selectBasicColor();
-    var stretchHeight = window.innerHeight - ($(".wrapper").height() - $("#display-output").height());
-    $("#display-output").css("min-height", stretchHeight);
+    var stretchHeight = window.innerHeight - ($(".wrapper").height() - $("#scan-output-container").height());
+    $("#scan-output-container").css("min-height", stretchHeight);
     LoadingImg(true);
 
     // get tactics
