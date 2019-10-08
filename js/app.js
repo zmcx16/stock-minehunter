@@ -6,14 +6,6 @@ const bg_color = [  { 'bg1': 'aliceblue', 'bg2': 'rgb(255,251,248)' },
                     { 'bg1': 'mintcream', 'bg2': 'mintcream' },
                     { 'bg1': 'snow', 'bg2': 'snow' }];
 
-// loading config
-var loadingTimeInterval = null;
-var loadingNowStep = 0;
-const loadingImgSize = { w: 96, h: 96 };
-const loadingStep = 5;
-const loadingDelay = 25;
-const loadingWH = 150;
-
 // tactics data
 var tactics_data = null;
 
@@ -23,61 +15,18 @@ function selectBasicColor(){
     $('.wrapper-0').css('background', bg_color[select].bg2);
 }
 
-function loadingImg(enable){
-    if (enable){
-        $("#block-all").css("display", "block");
-        var center_x = window.innerWidth / 2;
-        var center_y = window.innerHeight / 2;
-
-        $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + "px";
-        $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + "px";
-        loadingTimeInterval = setInterval(function () {
-            loadingNowStep = (loadingNowStep + loadingStep) % (loadingWH * 4);
-            if (loadingNowStep / loadingWH < 1) {
-                $("#elf-backward-gif").css("display", "none");
-                $("#elf-right-gif").css("display", "block");
-                $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + "px";
-                $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + loadingNowStep % loadingWH + "px";
-            } else if (loadingNowStep / loadingWH < 2) {
-                $("#elf-right-gif").css("display", "none");
-                $("#elf-forward-gif").css("display", "block");
-                $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + loadingNowStep % loadingWH + "px";
-                $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + loadingWH + "px";
-            } else if (loadingNowStep / loadingWH < 3) {
-                $("#elf-forward-gif").css("display", "none");
-                $("#elf-left-gif").css("display", "block");
-                $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + loadingWH + "px";
-                $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + loadingWH - loadingNowStep % loadingWH + "px";
-            } else {
-                $("#elf-left-gif").css("display", "none");
-                $("#elf-backward-gif").css("display", "block");
-                $("#loading-img")[0].style.top = center_y - loadingWH / 2 - loadingImgSize.h / 2 + loadingWH - loadingNowStep % loadingWH + "px";
-                $("#loading-img")[0].style.left = center_x - loadingWH / 2 - loadingImgSize.w / 2 + "px";
-            }
-        }, loadingDelay);
-    }else{
-        loadingNowStep = 0;
-        clearInterval(loadingTimeInterval);
-        $("#block-all").css("display", "none");
-        $("#elf-right-gif").css("display", "none");
-        $("#elf-forward-gif").css("display", "none");
-        $("#elf-left-gif").css("display", "none");
-        $("#elf-backward-gif").css("display", "none");
-    }
-}
-
 function loadTacticsArgs() {
     var list_index = $("#tactics-select")[0].selectedIndex;
 
     $("#tactics-content-description")[0].innerHTML = tactics_data[list_index].description;
     $("#tactics-args")[0].innerHTML =
-        '<div class="tactics-arg-text"><span class="span-large text-right">Tactic Name:</span></div>' +
+        '<div class="tactics-arg-text"><span class="span text-right">Tactic Name:</span></div>' +
         '<div></div>' +
         '<input type="text" id="tactics-arg-val-name" name="tactics-arg-val-name" value="MyTactic">' +
         '<div></div>';
     tactics_data[list_index].args.forEach(function (element, index, array) {
         $("#tactics-args")[0].innerHTML +=
-            '<div class="tactics-arg-text"><span class="span-large text-right">' + element.name_display + '</span></div>' +
+            '<div class="tactics-arg-text"><span class="span text-right">' + element.name_display + '</span></div>' +
             '<div></div>' +
             '<input type="text" id="tactics-arg-val-' + index + '" name="tactics-arg-val-' + index + '" value="' + element.default + '">' +
             '<div></div>';
@@ -240,14 +189,14 @@ function sendScan(){
     }
 
     // get scan result
-    loadingImg(true);
+    LoadingImg.doLoading(true);
     $.ajax({
         type: 'POST',
         url: 'https://zmcx16.moe/stock-minehunter/api/task/do-scan',   
         async: true,
         data: "=" + JSON.stringify({ "data": data }),
         success: function (resp_data, textStatus, xhr) {
-            loadingImg(false);
+            LoadingImg.doLoading(false);
             if (resp_data) {
                 console.log(resp_data);
                 displayScanReports(resp_data);
@@ -259,7 +208,7 @@ function sendScan(){
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-            loadingImg(false);
+            LoadingImg.doLoading(false);
             console.log('Get scan reports failed: ' + xhr);
             console.log('Get scan reports failed: ' + textStatus);
             console.log('Get scan reports failed: ' + errorThrown);
@@ -280,14 +229,14 @@ $(document).ready(function () {
 
     // init
     selectBasicColor();
-    loadingImg(true);
+    LoadingImg.doLoading(true);
 
     // get tactics
     $.ajax({
         url: 'https://zmcx16.moe/stock-minehunter/api/task/get-tactics',
         async: true,
         success: function (resp_data, textStatus, xhr) {
-            loadingImg(false);
+            LoadingImg.doLoading(false);
             if (resp_data) {
                 console.log(resp_data);
                 loadTactics(resp_data.data);
@@ -301,7 +250,7 @@ $(document).ready(function () {
 
         },
         error: function (xhr, textStatus, errorThrown) {
-            loadingImg(false);
+            LoadingImg.doLoading(false);
             console.log('get tactics failed: ' + xhr);
             console.log('get tactics failed: ' + textStatus);
             console.log('get tactics failed: ' + errorThrown);

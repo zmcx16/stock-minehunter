@@ -20,20 +20,10 @@
   <link href="./css/main.css" rel="stylesheet">
   <script src="./js/jquery.min.js"></script>
   <script src="./js/bootstrap.bundle.min.js"></script>
+  <script src="./loading/loading.js"></script>
   <script src="./js/app.js"></script>
 </head>
 <body>
-  <div id="block-all" style="position:fixed;
-              z-index: 2;
-              top:0; left:0; bottom:0; right:0;
-              background:rgba(0,0,0,.5);
-              display: block;"></div>
-  <div id="loading-img" style="z-index: 3; position: fixed;">
-    <img id="elf-left-gif" src="./image/elf/gif/left-hola.gif" style="display:none;">
-    <img id="elf-right-gif" src="./image/elf/gif/right-hola.gif" style="display:none;">
-    <img id="elf-forward-gif" src="./image/elf/gif/forward-hola.gif" style="display:none;">
-    <img id="elf-backward-gif" src="./image/elf/gif/backward-hola.gif" style="display:none;">
-  </div>
   <div class="wrapper-0">
   <div class="wrapper">
     <div class="kanban">
@@ -50,12 +40,12 @@
       <div class="tactics-symbol-select">
         <select id="tactics-select">
         </select>
-        <div><span class="span-x-large text-right">Select the scan tactic and input stocks' symbol:</span></div>
+        <div><span class="span-large text-right">Select the scan tactic and input stocks' symbol:</span></div>
         <div></div>
         <input type="text" id="add-symbol-input" placeholder=" T, GOOG, AAPL" name="input-symbols">
       </div>
       <div id="tactics-console">
-        <div id="tactics-content-description" class="span-large"></div>
+        <div id="tactics-content-description" class="span"></div>
         <div id="tactics-args"></div>
       </div>
       <div id="ctrl-pannel">
@@ -75,9 +65,9 @@
         </table>
       </div>
       <div id="ctrl-table-pannel">
-        <div class="guard-elf"><img class="guard-elf-img" src="./image/elf/image_1_7.png"></div>
+        <div class="guard-elf"><img class="guard-elf-img" src="./image/guard-elf-left.png"></div>
         <button id="scan-button" type="button" class="click-btn-v2">Scan</button>
-        <div class="guard-elf"><img class="guard-elf-img" src="./image/elf/image_1_4.png"></div>
+        <div class="guard-elf"><img class="guard-elf-img" src="./image/guard-elf-right.png"></div>
       </div>
     </div>
     <div id="display-page">
