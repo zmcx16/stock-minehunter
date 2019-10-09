@@ -22,7 +22,6 @@ class LoadingImg {
     }
 
     static _init(data){
-        LoadingImg.init = true;
         LoadingImg.loadingTimeInterval = null;
         LoadingImg.loadingNowStep = 0;
         LoadingImg.loadingImgSize = { w: data.loadingImgSize.w, h: data.loadingImgSize.h };
@@ -52,7 +51,7 @@ class LoadingImg {
                 '    <img id="' + LoadingImg.img_b_id + '" src="' + data.gifBackward + '" style="display:none;">' +
                 '</div>');
         }
-        
+        LoadingImg.init = true;
     }
 
     static _doLoading(enable) {

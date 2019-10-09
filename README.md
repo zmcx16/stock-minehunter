@@ -1,4 +1,5 @@
 # norn-minehunter (stock-minehunter)
+[![Build Status](https://zmcx16.visualstudio.com/stock-minehunter-server/_apis/build/status/zmcx16.stock-minehunter-server?branchName=master)](https://zmcx16.visualstudio.com/stock-minehunter-server/_build/latest?definitionId=4&branchName=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/027cf51f87284df0845a810996b79105)](https://www.codacy.com/manual/zmcx16/stock-minehunter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=zmcx16/stock-minehunter&amp;utm_campaign=Badge_Grade)
 
 # Overview
