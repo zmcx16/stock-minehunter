@@ -2,13 +2,14 @@ class LoadingImg {
 
     static doLoading(enable) {
         if (!LoadingImg.init){
+            LoadingImg.cmd = enable
             $.ajax({
                 url: "./loading/loading.json",
                 async: true,
                 success: function (data, textStatus, xhr) {
                     if (data) {
                         LoadingImg._init(data);
-                        LoadingImg._doLoading(enable);
+                        LoadingImg._doLoading(LoadingImg.cmd);
                     }
                     else {
                         console.log('get loading config failed: ' + xhr);
@@ -55,7 +56,8 @@ class LoadingImg {
     }
 
     static _doLoading(enable) {
-        if (enable) {
+        LoadingImg.cmd = enable;
+        if (LoadingImg.cmd) {
             $("#" + LoadingImg.block_id).css("display", "block");
             var center_x = window.innerWidth / 2;
             var center_y = window.innerHeight / 2;
