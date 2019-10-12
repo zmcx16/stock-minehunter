@@ -172,9 +172,9 @@ function sendScan(){
     try {
         $(".tactics-tr").each(function () {
             var tactic_data = {};
-            tactic_data["name"] = $(this).find(".name-td")[0].outerText;
-            tactic_data["type"] = $(this).find(".type-td")[0].outerText;
-            tactic_data["target"] = $(this).find(".target-td")[0].outerText.split(',');
+            tactic_data["name"] = $(this).find(".name-td")[0].innerHTML;
+            tactic_data["type"] = $(this).find(".type-td")[0].innerHTML;
+            tactic_data["target"] = $(this).find(".target-td")[0].innerHTML.split(',');
             tactic_data["args"] = JSON.parse(atob($(this).find(".parameter-td").attr("value")));
 
             data.push(tactic_data);
