@@ -86,7 +86,7 @@ body{
 }
 
 #tactics-content-description{
-    border: 4px double#bbb;
+    border: 3px double#bbb;
     width: 100%;
     white-space: pre-line;
     padding: 5px 10px;
@@ -280,7 +280,8 @@ legend.scan-block {
 .output-stage2{
     margin: 10px;
     min-height: 100px;
-    border: 2px solid #bbb;
+    border: 3px double;
+    border-color: deepskyblue;
     white-space: pre-line;
     padding: 5px 10px;
     line-height: 30px;
