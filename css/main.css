@@ -77,7 +77,8 @@ body{
 }
 
 #tactics-console{
-    border: 2px solid #bbb;
+    border: 2px solid;
+    border-color: gainsboro;
     margin-top: 10px;
     width: 100%;
     height: auto;
@@ -224,7 +225,8 @@ legend.scan-block {
 }
 
 .scan-output{
-    border: 2px solid #bbb;
+    border: 2px solid;
+    border-color: deepskyblue;
     margin-bottom: 30px;
 }
 
