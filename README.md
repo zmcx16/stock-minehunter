@@ -8,12 +8,24 @@ Do you want to know the stocks which you hold are Treasure or Bomb? Norn-Minehun
 Would you like to share your tactics with everyone? Feel free to contact me: zmcx16.gmail.com
 
 # Scan Tactics
-  * Peter Lynch strategy (Ref: https://valueandgrowthinvesting.com/peter-lynch-screener/)
-  * stasistw strategy (Ref: https://valueandgrowthinvesting.com/mai-screener/)
+  * Benjamin Graham strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0105.htm)
+  * Harry Burn III strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0118.htm)
+  * James P. O’shaughnessy strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0103.htm)
+  * John Neff strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0101.htm)
+  * Michael Berry strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0102.htm)
+  * Michael Price strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0113.htm)
+  * Peter Lynch strategy (Ref: https://valueandgrowthinvesting.com/peter-lynch-screener)
+  * Richard Buchwald & Marvin Kline strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0132.htm)
+  * Robert Sanborn strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0110.htm)
+  * stasistw strategy (Ref: https://valueandgrowthinvesting.com/mai-screener)
+  * Steven C. Leuthold strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0115.htm)
+  * Trinity Investment Management strategy (Ref: https://www.tej.com.tw/twsite/tejweb/tw/product/explain/T0104.htm)
+  * Warren E. Buffett strategy (Ref: https://finbox.com/blog/warren-buffett-stock-screen-by-finbox-io/)
+  * zmcx16 strategy
 
 # Financial Data Source
-  * Finviz (https://finviz.com/)
-  * Yahoo Finance (https://finance.yahoo.com/) 
+  * Finviz (https://finviz.com)
+  * Yahoo Finance (https://finance.yahoo.com)
 
 # Demo
 
