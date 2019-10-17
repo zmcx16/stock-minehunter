@@ -215,7 +215,7 @@ function sendScan(){
             $('#alert-dialog-content')[0].innerText = "Get scan reports failed.";
             $('#alert-dialog-hidden-btn').click();
         },
-        timeout: 180000
+        timeout: 300000
     });
 }
 
