@@ -6,7 +6,7 @@ const bg_color = [  { 'bg1': 'aliceblue', 'bg2': 'rgb(255,251,248)' },
                     { 'bg1': 'mintcream', 'bg2': 'mintcream' },
                     { 'bg1': 'snow', 'bg2': 'snow' }];
 
-const max_target_cnt = 50;
+const max_target_cnt = 30;
                     
 // tactics data
 var tactics_data = null;
