@@ -195,9 +195,6 @@ function sendScan(){
         url: 'https://zmcx16.moe/stock-minehunter/api/task/do-scan',   
         async: true,
         data: "=" + JSON.stringify({ "data": data }),
-        beforeSend: function (R) {
-            R.setRequestHeader('Connection', 'Keep-Alive');
-        },
         success: function (resp_data, textStatus, xhr) {
             LoadingImg.doLoading(false);
             if (resp_data) {
