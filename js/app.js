@@ -6,6 +6,8 @@ const bg_color = [  { 'bg1': 'aliceblue', 'bg2': 'rgb(255,251,248)' },
                     { 'bg1': 'mintcream', 'bg2': 'mintcream' },
                     { 'bg1': 'snow', 'bg2': 'snow' }];
 
+const max_target_cnt = 50;
+                    
 // tactics data
 var tactics_data = null;
 
@@ -169,12 +171,14 @@ function sendScan(){
     }
 
     var data = [];
+    var total_target_cnt = 0;
     try {
         $(".tactics-tr").each(function () {
             var tactic_data = {};
             tactic_data["name"] = $(this).find(".name-td")[0].innerHTML;
             tactic_data["type"] = $(this).find(".type-td")[0].innerHTML;
             tactic_data["target"] = $(this).find(".target-td")[0].innerHTML.split(',');
+            total_target_cnt += tactic_data["target"].length;
             tactic_data["args"] = JSON.parse(atob($(this).find(".parameter-td").attr("value")));
 
             data.push(tactic_data);
@@ -188,6 +192,12 @@ function sendScan(){
         return;
     }
 
+    if (total_target_cnt > max_target_cnt){
+        $('#alert-dialog-content')[0].innerText = "The targets size: " + total_target_cnt + " > " + max_target_cnt + ", remove some tactics or targets and try again.";
+        $('#alert-dialog-hidden-btn').click();
+        return;   
+    }
+
     // get scan result
     LoadingImg.doLoading(true);
     $.ajax({
@@ -195,9 +205,6 @@ function sendScan(){
         url: 'https://zmcx16.moe/stock-minehunter/api/task/do-scan',   
         async: true,
         data: "=" + JSON.stringify({ "data": data }),
-        beforeSend: function (R) {
-            R.setRequestHeader('Connection', 'Keep-Alive');
-        },
         success: function (resp_data, textStatus, xhr) {
             LoadingImg.doLoading(false);
             if (resp_data) {
