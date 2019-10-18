@@ -164,6 +164,8 @@ function displayScanReports(resp_data) {
             '</div>' +
             '<div class="output-stage2">' + report_detail + '</div>' +
             '</div>';
+
+        return true; 
     });
 
     $('#display-page')[0].scrollIntoView({ behavior: "smooth" });
