@@ -115,29 +115,36 @@ function displayScanReports(resp_data) {
     }
 
     $("#scan-output-container")[0].innerHTML = "";
-    resp_data.data.forEach((element) => {
+    resp_data.data.every((element) => {
         //console.log(element);
         var score_dict = { "pass": 0, "fail": 0, "nodata": 0 };
         var report_detail = "";
         var base_info = "";
 
+        if (!element["baseinfo"])
+            return false; 
+
         Object.entries(element["baseinfo"]).forEach(([key, value]) => {
             base_info += '<div class="base-data"><span class="span-12px">' + key + ':</span><span class="span-12px base-data-value">' + value + '</span></div><div></div>';
         });
 
-        element["report"].forEach((arg) => {
-            if (arg["pass"] === -1) {
-                report_detail += '<span style="color: red;">[Fail] </span>';
-                score_dict["fail"] += 1;
-            } else if (arg["pass"] === 1) {
-                report_detail += '<span style="color: limegreen;">[Pass] </span>';
-                score_dict["pass"] += 1;
-            } else {
-                report_detail += '<span>[No Data] </span>';
-                score_dict["nodata"] += 1;
-            }
-            report_detail += arg["msg"] + "\n";
-        });
+        if (element["report"]){
+            element["report"].forEach((arg) => {
+                if (arg["pass"] === -1) {
+                    report_detail += '<span style="color: red;">[Fail] </span>';
+                    score_dict["fail"] += 1;
+                } else if (arg["pass"] === 1) {
+                    report_detail += '<span style="color: limegreen;">[Pass] </span>';
+                    score_dict["pass"] += 1;
+                } else {
+                    report_detail += '<span>[No Data] </span>';
+                    score_dict["nodata"] += 1;
+                }
+                report_detail += arg["msg"] + "\n";
+            });
+        }else{
+            report_detail = "Get Scan Report Failed.";
+        }
 
         var name = element["name"] + ": " + element["symbol"];
         var score = Math.round(score_dict["fail"] / (score_dict["pass"] + score_dict["fail"]) * 100);
