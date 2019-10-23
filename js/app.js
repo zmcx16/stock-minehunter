@@ -149,20 +149,41 @@ function displayScanReports(resp_data) {
         var name = element["name"] + ": " + element["symbol"];
         var score = Math.round(score_dict["fail"] / (score_dict["pass"] + score_dict["fail"]) * 100);
 
+        var norn_img, bomb_img;
+        if (isNaN(score)){
+            norn_img = "./image/norn3.png";
+            bomb_img = "./image/bomb3.png";
+        } else if (score < 100 * (1 / 5.0)) {
+            norn_img = "./image/norn1.png";
+            bomb_img = "./image/bomb1.png";
+        } else if (score < 100 * (2 / 5.0)){
+            norn_img = "./image/norn2.png";
+            bomb_img = "./image/bomb2.png";
+        } else if (score < 100 * (3 / 5.0)) {
+            norn_img = "./image/norn3.png";
+            bomb_img = "./image/bomb3.png";
+        } else if (score < 100 * (4 / 5.0)) {
+            norn_img = "./image/norn4.png";
+            bomb_img = "./image/bomb4.png";
+        } else{
+            norn_img = "./image/norn5.png";
+            bomb_img = "./image/bomb5.png";
+        }
+
         $("#scan-output-container")[0].innerHTML +=
             '<div class="scan-output">' +
-            '<div class="output-stage1">' +
-            '<div class="output-norn-image"><img src="./image/norn.png"></div>' +
-            '<div class="output-info1">' +
-            '<span class="span-xx-large output-name">' + name + '</span>' +
-            '<div class="output-info1-baseinfo">' + base_info + '</div>' +
-            '</div>' +
-            '<div class="output-info2">' +
-            '<div><img class="bomb-icon" src="./image/bomb.png"></div>' +
-            '<div class="span-x-large bomb-rate">' + score.toString() + '%</div>' +
-            '</div>' +
-            '</div>' +
-            '<div class="output-stage2">' + report_detail + '</div>' +
+            '  <div class="output-stage1">' +
+            '    <div class="output-norn-image"><img src="' + norn_img + '"></div>' +
+            '    <div class="output-info1">' +
+            '      <span class="span-xx-large output-name">' + name + '</span>' +
+            '      <div class="output-info1-baseinfo">' + base_info + '</div>' +
+            '    </div>' +
+            '    <div class="output-info2">' +
+            '      <div><img class="bomb-icon" src="' + bomb_img + '"></div>' +
+            '      <div class="span-x-large bomb-rate">' + score.toString() + '%</div>' +
+            '    </div>' +
+            '  </div>' +
+            '  <div class="output-stage2">' + report_detail + '</div>' +
             '</div>';
 
         return true; 
