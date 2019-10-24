@@ -173,7 +173,7 @@ function displayScanReports(resp_data) {
         $("#scan-output-container")[0].innerHTML +=
             '<div class="scan-output">' +
             '  <div class="output-stage1">' +
-            '    <div class="output-norn-image"><img src="' + norn_img + '"></div>' +
+            '    <div class="output-norn-image"><img src="' + norn_img + '" class="norn-img"></div>' +
             '    <div class="output-info1">' +
             '      <span class="span-xx-large output-name">' + name + '</span>' +
             '      <div class="output-info1-baseinfo">' + base_info + '</div>' +
