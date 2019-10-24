@@ -29,5 +29,7 @@ Would you like to share your tactics with everyone? Feel free to contact me: zmc
 
 # Demo
 
+![image](https://github.com/zmcx16/stock-minehunter/blob/master/demo/demo1.gif)
+
 # License
 This project is licensed under the terms of the MIT license.
