@@ -65,6 +65,18 @@ function buildTacticParameter(list_index, tactic_input) {
     return '<td class="parameter-td" value="' + btoa(JSON.stringify(para_data)) + '">' + display_data + '</td>';
 }
 
+function buildTacticParameterWithArgs(args) {
+
+    var display_data = "";
+    var para_data = {};
+    Object.entries(args).forEach(([key, val]) => {
+        para_data[key] = val;
+        display_data += key + ": " + val + "; ";
+    });
+
+    return '<td class="parameter-td" value="' + btoa(JSON.stringify(para_data)) + '">' + display_data + '</td>';
+}
+
 function addTactic() {
 
     if (!$("#add-symbol-input")[0].value){
@@ -104,6 +116,43 @@ function addTactic() {
             $("#tactics-add-list").css("display", "none");
         }
     });
+}
+
+function addTacticFromFiles(files) {
+
+    try {
+        var data = JSON.parse(files);
+        for (var i = 0; i < data.length; i++) {
+            console.log(data[i]);
+
+            var tactic_targets = data[i]["target"];
+            var tactic_type = data[i]["type"];
+
+            $("#tactics-tbody")[0].innerHTML +=
+                '<tr class="tactics-tr">' +
+                '<td class="name-td">' + data[i]["name"] + '</td>' +
+                '<td class="type-td">' + data[i]["type"] + '</td>' +
+                '<td class="target-td">' + data[i]["target"] + '</td>' +
+                buildTacticParameterWithArgs(data[i]["args"]) +
+                '<td><span class="remove"><button type="button" class="close remove-tactic"><span>&times;</span></button></span></td>' +
+                '</tr>';
+
+            $("#tactics-add-list").css("display", "block");
+
+            $('.close.remove-tactic').unbind("click");
+            $('.close.remove-tactic').click(function () {
+                $(this).parent().parent().parent().remove();
+                if (!$(".tactics-tr")[0]) {
+                    $("#tactics-add-list").css("display", "none");
+                }
+            });
+        }
+    } catch (ex) {
+        console.log(ex);
+        $('#alert-dialog-content')[0].innerText = "Import files failed.";
+        $('#alert-dialog-hidden-btn').click();
+        return;
+    }
 }
 
 function displayScanReports(resp_data) {
@@ -192,6 +241,25 @@ function displayScanReports(resp_data) {
     $('#display-page')[0].scrollIntoView({ behavior: "smooth" });
 }
 
+function getTacticsData(){
+    var data = [];
+    var total_target_cnt = 0;
+    $(".tactics-tr").each(function () {
+        var tactic_data = {};
+        tactic_data["name"] = $(this).find(".name-td")[0].innerHTML;
+        tactic_data["type"] = $(this).find(".type-td")[0].innerHTML;
+        tactic_data["target"] = $(this).find(".target-td")[0].innerHTML.split(',');
+        total_target_cnt += tactic_data["target"].length;
+        tactic_data["args"] = JSON.parse(atob($(this).find(".parameter-td").attr("value")));
+
+        data.push(tactic_data);
+        //console.log($(this));
+        //console.log(tactic_data);
+    });
+
+    return { "data": data, "total_target_cnt": total_target_cnt};
+}
+
 function sendScan(){
 
     if (!$(".tactics-tr")[0]) {
@@ -203,18 +271,10 @@ function sendScan(){
     var data = [];
     var total_target_cnt = 0;
     try {
-        $(".tactics-tr").each(function () {
-            var tactic_data = {};
-            tactic_data["name"] = $(this).find(".name-td")[0].innerHTML;
-            tactic_data["type"] = $(this).find(".type-td")[0].innerHTML;
-            tactic_data["target"] = $(this).find(".target-td")[0].innerHTML.split(',');
-            total_target_cnt += tactic_data["target"].length;
-            tactic_data["args"] = JSON.parse(atob($(this).find(".parameter-td").attr("value")));
+        var tactics_data = getTacticsData();
+        data = tactics_data["data"];
+        total_target_cnt = tactics_data["total_target_cnt"];
 
-            data.push(tactic_data);
-            //console.log($(this));
-            //console.log(tactic_data);
-        });
     } catch (ex) {
         console.log(ex);
         $('#alert-dialog-content')[0].innerText = "Parse tactic data failed, the tactic data are invalid.";
@@ -265,6 +325,19 @@ function resizeWindowHeight(){
     $("#scan-output-container").css("min-height", stretchHeight);
 }
 
+function handleImport(files) {
+    Object.entries(files).forEach(([key, value]) => {
+        var reader = new FileReader();
+        reader.onload = (function (theFile) {
+            return function (e) {
+                addTacticFromFiles(e.target.result);
+            };
+        })(value);
+
+        reader.readAsBinaryString(value);
+    });
+}
+
 // start
 $(document).ready(function () {
 
@@ -303,11 +376,35 @@ $(document).ready(function () {
         timeout: 60000
     });
 
-
     // event register
     $("#tactics-select").on('change', function(){
         if(tactics_data){
             loadTacticsArgs();
+        }
+    });
+    
+    $('#import-tactics-input')[0].addEventListener('change', (evt) => {
+        //console.log(evt.target.files); // get file object
+        handleImport(evt.target.files);
+    });
+
+    $("#import-button").click(function () {
+        $('#import-tactics-input').click();
+    });
+
+    $("#export-button").click(function () {
+        var tactics_data = getTacticsData();
+        if (tactics_data["total_target_cnt"] <= 0) {
+            $('#alert-dialog-content')[0].innerText = "No any tactics data in table.";
+            $('#alert-dialog-hidden-btn').click();
+        }
+        else{
+            var aTag = document.createElement('a');
+            var blob = new Blob([JSON.stringify(tactics_data["data"])]);
+            aTag.download = 'norn-minehunter.json';
+            aTag.href = URL.createObjectURL(blob);
+            aTag.click();
+            URL.revokeObjectURL(blob);
         }
     });
 

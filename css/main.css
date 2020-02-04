@@ -108,6 +108,13 @@ body{
 #ctrl-pannel{
     padding: 10px 0px;
     position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+}
+
+#ctrl-pannel-left, #ctrl-pannel-right{
+    position: relative;
 }
 
 .click-btn-v2{

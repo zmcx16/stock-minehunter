@@ -57,8 +57,17 @@
         <div id="tactics-args"></div>
       </div>
       <div id="ctrl-pannel">
-        <button id="reset-button" type="button" class="click-btn-v2">Reset</button>
-        <button id="add-button" type="button" class="click-btn-v2 last-button">Add</button>
+        <div id="ctrl-pannel-left">
+          <input id="import-tactics-input" type="file" name="import-tactics" data-target="file-uploader" multiple="multiple"
+            style="display:none;">
+          <button id="import-button" type="button" class="click-btn-v2">Import</button>
+          <button id="export-button" type="button" class="click-btn-v2 last-button">Export</button>
+        </div>
+        <div></div>
+        <div id="ctrl-pannel-right">
+          <button id="reset-button" type="button" class="click-btn-v2">Reset</button>
+          <button id="add-button" type="button" class="click-btn-v2 last-button">Add</button>
+        </div>
       </div>
       <div id="tactics-add-list" style="display:none;">
         <table id="tactics-table">
