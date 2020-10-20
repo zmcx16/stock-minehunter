@@ -294,9 +294,7 @@ function sendScan(){
         type: 'POST',
         url: 'https://zmcx16.moe/stock-minehunter/api/task/do-scan',   
         async: true,
-        data: { "data": data },
-		dataType: 'json',
-		contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({ "data": data }),
         cache: false,
         success: function (resp_data, textStatus, xhr) {
             LoadingImg.doLoading(false);
