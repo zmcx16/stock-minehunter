@@ -289,14 +289,36 @@ function sendScan(){
     }
 
     // get scan result
+    getScanResult("https://zmcx16.moe/stock-minehunter/api/task/do-scan", JSON.stringify({ "data": data }));
+}
+
+function resizeWindowHeight(){
+    var stretchHeight = window.innerHeight - ($(".wrapper").height() - $("#scan-output-container").height());
+    $("#scan-output-container").css("min-height", stretchHeight);
+}
+
+function handleImport(files) {
+    Object.entries(files).forEach(([key, value]) => {
+        var reader = new FileReader();
+        reader.onload = (function (theFile) {
+            return function (e) {
+                addTacticFromFiles(e.target.result);
+            };
+        })(value);
+
+        reader.readAsBinaryString(value);
+    });
+}
+
+function getScanResult(url, post_body){
     LoadingImg.doLoading(true);
     $.ajax({
         type: 'POST',
-        url: 'https://zmcx16.moe/stock-minehunter/api/task/do-scan',   
+        url: url,
         async: true,
-        data: JSON.stringify({ "data": data }),
-		dataType: 'json',
-		contentType: 'application/json',
+        data: post_body,
+        dataType: 'json',
+        contentType: 'application/json',
         cache: false,
         success: function (resp_data, textStatus, xhr) {
             LoadingImg.doLoading(false);
@@ -319,24 +341,6 @@ function sendScan(){
             $('#alert-dialog-hidden-btn').click();
         },
         timeout: 300000
-    });
-}
-
-function resizeWindowHeight(){
-    var stretchHeight = window.innerHeight - ($(".wrapper").height() - $("#scan-output-container").height());
-    $("#scan-output-container").css("min-height", stretchHeight);
-}
-
-function handleImport(files) {
-    Object.entries(files).forEach(([key, value]) => {
-        var reader = new FileReader();
-        reader.onload = (function (theFile) {
-            return function (e) {
-                addTacticFromFiles(e.target.result);
-            };
-        })(value);
-
-        reader.readAsBinaryString(value);
     });
 }
 
@@ -364,6 +368,15 @@ $(document).ready(function () {
             }
             resizeWindowHeight();
 
+            // need get scan default result
+            let searchParams = new URLSearchParams(window.location.search)
+            if (searchParams.has('get-def-scan')){
+                
+                const urldecoded = decodeURIComponent(searchParams.get('get-def-scan'));
+                const base64decoded = atob(urldecoded);
+                //console.log(base64decoded);
+                getScanResult("https://zmcx16.moe/stock-minehunter/api/task/get-def-scan", base64decoded);
+            }
         },
         error: function (xhr, textStatus, errorThrown) {
             LoadingImg.doLoading(false);
