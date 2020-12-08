@@ -370,12 +370,12 @@ $(document).ready(function () {
 
             // need get scan default result
             let searchParams = new URLSearchParams(window.location.search)
-            if (searchParams.has('get-def-scan')){
-                
-                const urldecoded = decodeURIComponent(searchParams.get('get-def-scan'));
-                const base64decoded = atob(urldecoded);
-                //console.log(base64decoded);
-                getScanResult("https://zmcx16.moe/stock-minehunter/api/task/get-def-scan", base64decoded);
+            if (searchParams.has('api')){
+                if (searchParams.get('api') === 'get-def-scan'){
+                    const tactics = decodeURIComponent(searchParams.get('tactics')).split(',');
+                    const data = { 'data': [{ 'tactics': tactics, 'symbol': searchParams.get('symbol')}]}
+                    getScanResult("https://zmcx16.moe/stock-minehunter/api/task/get-def-scan", JSON.stringify(data));
+                }
             }
         },
         error: function (xhr, textStatus, errorThrown) {
