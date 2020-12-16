@@ -371,7 +371,7 @@ $(document).ready(function () {
             // need get scan default result
             let searchParams = new URLSearchParams(window.location.search)
             if (searchParams.has('api')){
-                if (searchParams.get('api') === 'get-def-scan'){
+                if (searchParams.get('api') === 'get-def-scan' && searchParams.get('tactics')!==''){
                     const tactics = decodeURIComponent(searchParams.get('tactics')).split(',');
                     const data = { 'data': [{ 'tactics': tactics, 'symbol': searchParams.get('symbol')}]}
                     getScanResult("https://zmcx16.moe/stock-minehunter/api/task/get-def-scan", JSON.stringify(data));
