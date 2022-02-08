@@ -237,7 +237,7 @@ function displayScanReports(resp_data) {
 
         return true; 
     });
-
+    LoadingImg.doLoading(false);
     $('#display-page')[0].scrollIntoView({ behavior: "smooth" });
 }
 
